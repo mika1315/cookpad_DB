@@ -1,0 +1,23 @@
+html
+    head
+        link(ref="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+        link(rel="stylesheet" href="css/materialize.min.css" media="screen,projection")
+        link(rel="stylesheet" href="css/insearch.css")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    body
+        script(type="text/javascript" src="js/materialize.min.js")
+        div(class="container")
+            div(class="header") #{ingredients} を使ったレシピ
+            if results != false
+                each row in results
+                    img(class="photo" src="photo/"+row['title']+".jpg")
+                    div
+                        div(class="recipe_title") #{row['title']}
+                    div(class="recipe")
+                        div(class="recipe_user") by #{row['name']}
+                        div(calss="recipe_intro") #{row['introduction']}
+            else
+                div(class="sorry") 申し訳ございません。<br> 該当するレシピはありません。
+                div
+                    img(class="apologize" src="photo/apologize.png")
+                

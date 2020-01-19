@@ -1,0 +1,23 @@
+html
+    head
+        link(ref="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+        link(rel="stylesheet" href="css/materialize.min.css" media="screen,projection")
+        link(rel="stylesheet" href="css/app.css")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    body
+        script(type="text/javascript" src="js/materialize.min.js")
+        div(class="container")
+            div: a(href='search') 検索する
+            each row in results
+                div(class="header")
+                    img(class= "icon" src = "photo/"+row['account']+".png")
+                    div(class = "kitchen") #{row['name']} のキッチン
+                    div(class = "userbio") #{row['bio']}
+                div(class="follow_list")
+                    img(class= "follow_icon" src = "photo/follow.png")
+                    div(class="follow") フォロー: #{row['followee_count']} 人 フォロワー: #{row['follower_count']} 人<br><br>
+                div(class="userrecipe")
+                    div(class="recipe") #{row['name']} が作ったレシピ: #{row['title_count']} 品
+                    img(class="curry" src = "photo/"+row['title']+".jpg") 
+                    div(class="recipe_title") #{row['title']}
+                    div(class="recipe_intro") #{row['introduction']}

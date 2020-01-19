@@ -1,0 +1,34 @@
+div.header {
+    font-size: 220%;
+}
+
+img.photo {
+    width: 30%;
+    height: 30%;
+    float: left;
+    margin: 10px 20px;
+}
+
+div.recipe {
+    padding-bottom: 150px;
+    font-size: 120%;
+}
+
+div.recipe_title {
+    color: #9ACD32;
+    font-size: 200%;   
+}
+
+
+div.sorry {
+    font-size: 200%;
+    font-weight: bold;
+    text-align: center;
+}
+
+img.apologize {
+    width: 30%;
+    height: 30%;
+    display: block;
+    margin: auto;
+}

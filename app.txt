@@ -1,0 +1,50 @@
+var sqlite3 = require('sqlite3').verbose()
+var bodyParser = require('body-parser')
+const express = require('express')
+const app = express()
+app.use(express.static('public'));
+app.set('view engine', 'pug')
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+app.use(bodyParser.json())
+
+var db = new sqlite3.Database('cookpad.db')
+
+app.get('/', function (req, res, next) {
+    var query = "\
+        SELECT u.name, u.bio, rc.title, rc.introduction, \
+            (SELECT count(*) \
+            FROM follow f \
+            WHERE u.name = 'うさぎ' \
+            and u.account= f.follower_account) as follower_count, \
+            (SELECT count(*) \
+            FROM follow f \
+            WHERE u.name = 'うさぎ' \
+            and u.account = f.followee_account) as followee_count \
+        FROM recipe rc, user u \
+        WHERE u.name = 'うさぎ' \
+        and u.account = rc.account; \
+        ";
+        console.log("DBG:" + query);
+    db.all(query, {}, function (err, rows) {
+        if (err) {
+            console.log("ERROR: " + err.message);
+        }
+        res.render('index', {
+            results: rows
+        })
+    })
+});
+
+app.post('/tweet', function (req, res, next) {
+
+    datetime = getCurrentTime();
+    content = req.body['tweet_content'];
+    var query = "INSERT INTO tweet(account,datetime,content) VALUES(?,?,?)";
+    var statement = db.prepare(query);
+    statement.run(account,datetime,content);
+    statement.finalize();
+    
+    res.redirect('/');    
+});
+
+app.listen(3000, () => console.log('Example app listening on port 3000!'))

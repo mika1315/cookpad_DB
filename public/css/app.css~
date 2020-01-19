@@ -1,0 +1,46 @@
+div.header {
+    align: center;
+}
+
+img.icon {
+    width: 100px;
+    height: 100px;
+    border: solid 3px #9ACD32;
+    box-shadow: 2px 2px 3px 3px rgba(0, 0, 0, 0.3);
+    float: left;
+    margin: 10px 20px;
+}
+
+div.kitchen {
+    color: #9ACD32;
+    font-size: 220%;
+    margin: 20px 20px 10px;
+}
+
+div.userbio{
+    font-size: 120%;
+}
+
+div.follow{
+    font-size: 120%;
+    text-align: right;
+}
+
+img.follow_icon{
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-left: 10px;
+}
+
+div.recipe {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+
+img.curry {
+    width: 120px;
+    height: 120px;
+    align: bottom;
+}

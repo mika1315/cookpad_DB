@@ -1,0 +1,24 @@
+img.photo {
+    width: 30%;
+    height: 30%;
+    float: left;
+    clear: left;
+}
+
+div.recipe_title {
+    font-size: 200%;
+    vertifical-align: middle;
+}
+
+div.sorry {
+    font-size: 200%;
+    font-weight: bold;
+    text-align: center;
+}
+
+img.apologize {
+    width: 30%;
+    height: 30%;
+    display: block;
+    margin: auto;
+}
