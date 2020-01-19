@@ -12,7 +12,8 @@ var db = new sqlite3.Database('cookpad.db')
 
 app.get('/', function (req, res, next) {
     var query = "\
-        SELECT u.account, u.name, u.bio, rc.title, rc.introduction, \
+        SELECT u.account, u.name, u.bio, \
+        rc.title, rc.introduction, \
         count(rc.title) as title_count, \
             (SELECT count(*) \
             FROM follow f \
@@ -21,7 +22,30 @@ app.get('/', function (req, res, next) {
             (SELECT count(*) \
             FROM follow f \
             WHERE u.name = 'うさぎ' \
-            and u.account = f.followee_account) as followee_count \
+            and u.account = f.followee_account) as followee_count, \
+            (SELECT rc.title \
+            FROM report rp , recipe rc \
+            WHERE u.name = 'うさぎ' \
+            and u.account = rp.account \
+            and rp.recipe_id = rc.id) as report_title, \
+            (SELECT count(rc.title) \
+            FROM report rp , recipe rc \
+            WHERE u.name = 'うさぎ' \
+            and u.account = rp.account \
+            and rp.recipe_id = rc.id) as report_title_count, \
+            (SELECT u.name \
+            FROM user u \
+            WHERE u.account = \
+            (SELECT rc.account \
+            FROM report rp , recipe rc, user u \
+            WHERE u.name = 'うさぎ' \
+            and u.account = rp.account \
+            and rp.recipe_id = rc.id)) as recipe_user, \
+            (SELECT rp.contents \
+            FROM report rp , recipe rc \
+            WHERE u.name = 'うさぎ' \
+            and u.account = rp.account \
+            and rp.recipe_id = rc.id) as report_content \
         FROM recipe rc, user u \
         WHERE u.name = 'うさぎ' \
         and u.account = rc.account; \

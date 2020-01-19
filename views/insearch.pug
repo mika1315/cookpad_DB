@@ -9,7 +9,7 @@ html
         div(class="container")
             div(class="header") #{ingredients} を使ったレシピ
             if results != false
-                div 人気順で表示中
+                div(class="sort") 人気順で表示中!
                 each row in results
                     img(class="photo" src="photo/"+row['title']+".jpg")
                     div
