@@ -10,6 +10,17 @@ app.use(bodyParser.json())
 
 var db = new sqlite3.Database('cookpad.db')
 
+function sample(query, callback) {
+    db.all(query, {}, function (err, rows) {
+        if (err) {
+            console.log("ERROR: " + err.message);
+        }
+        console.log("inside fuction: " + rows.length);
+        callback(rows);
+    }
+          )
+}
+
 app.get('/', function (req, res, next) {
     var query = "\
         SELECT u.account, u.name, u.bio, \
@@ -93,6 +104,60 @@ app.post('/insearch', function (req, res) {
         })
     })
     // statement.finalize();    
+});
+
+app.get('/curry', function (req, res, next) {
+    var query1 = "\
+        SELECT m.contents  \
+        FROM recipe rc, method m, user u \
+        WHERE rc.title = 'カレー' \
+        and rc.id = m.recipe_id; \
+        ";
+
+    var query2 = "\
+        SELECT i.name, i.quantity, rc.title, rc.introduction, u.account \
+        FROM recipe rc, ingredient i, user u \
+        WHERE rc.title = 'カレー' \
+        and u.account = rc.account \
+        and rc.id = i.recipe_id; \
+        ";
+    
+    console.log("DBG_INDEX:" + query1);
+    console.log("DBG_INDEX:" + query2);
+
+    /*
+    // Promise, then を使う方法
+    var result = new Promise(function(resolve) {
+        sample(query1, function(rows) {
+            resolve(rows);
+        });
+    });
+    result
+        .then( function(rows1) {
+            sample(query2, function(rows2) {
+                console.log("query1 :" + rows1.length);
+                console.log("query2 :" + rows2.length);
+                res.render('curry', {
+                    methods: rows1,
+                    ingredients: rows2
+                });
+            });
+        });
+    */
+
+    // コールバック処理を入れ子で実現
+    sample(query1, function(rows1) {
+        console.log("query1 : " + rows1.length);
+        
+        sample(query2, function(rows2) {
+            console.log("query2 : " + rows2.length);
+            
+            res.render('curry', {
+                methods: rows1,
+                ingredients: rows2
+            });
+        }); 
+    });
 });
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
