@@ -81,9 +81,9 @@ app.post('/insearch', function (req, res) {
         ORDER BY search_count DESC; \
         ";
     console.log("DBG_SEARCH:" + query);
-    var statement = db.prepare(query);
+    // var statement = db.prepare(query);
     
-    statement.all(content, function (err, rows) {
+    db.all(query,content, function (err, rows) {
         if (err) {
             console.log("ERROR_SEARCH: " + err.message);
         }
@@ -92,7 +92,7 @@ app.post('/insearch', function (req, res) {
             results: rows
         })
     })
-    statement.finalize();    
+    // statement.finalize();    
 });
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
