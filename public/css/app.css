@@ -62,7 +62,8 @@ img.curry {
     float: left;
 }
 
-div.recipe_title {
+a.recipe_title {
+    border-bottom: solid 2px #9ACD32;
     color: #9ACD32;
     font-size: 200%;
 }

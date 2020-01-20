@@ -30,6 +30,13 @@ div.account {
     padding-right: 10px;
 }
 
+img.icon {
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-left: 10px;
+}
+
 div.ingredients {
     font-size: 150%;
 }

@@ -20,7 +20,7 @@ html
                     div(class="userrecipe")
                         div(class="recipe") #{row['name']} が作ったレシピ: #{row['title_count']} 品
                         img(class="curry" src = "photo/"+row['title']+".jpg") 
-                        div(class="recipe_title") #{row['title']}
+                        div: a(class="recipe_title" href='curry') #{row['title']}
                         div(class="recipe_intro") #{row['introduction']}
                     div(class="userreport")
                         div(class="report") #{row['name']} のつくれぽ: #{row['report_title_count']} 件
