@@ -1,0 +1,33 @@
+html
+    head
+        link(ref="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+        link(rel="stylesheet" href="css/materialize.min.css" media="screen,projection")
+        link(rel="stylesheet" href="css/curry.css")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    body
+        script(type="text/javascript" src="js/materialize.min.js")
+        div(class="container")
+            div(class="header")
+                each row in informations
+                    div(class="title") カレー
+                    img(class="curry" src = "photo/カレー.jpg")
+                    div(class="intro") #{row['introduction']}
+                    div(class="account") 作成者：うさぎ
+            div 
+                div(class="ingredients") 材料
+                each row in ingredients
+                    div(class="list") #{row['name']}: #{row['quantity']}
+            div
+                div(class="methods") 作り方
+                each row, index in methods
+                    div(class="step") #{index+1}. #{row['contents']}<br><br>
+            div
+                div(class="point") コツ・ポイント
+                each row in informations
+                    div(class="point_content") #{row['point']}<br><br>
+            div
+                div(class="background") このレシピの生い立ち
+                each row in informations
+                    div(class="bg_content") #{row['background']}<br><br>
+                    
+                
