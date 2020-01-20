@@ -109,22 +109,27 @@ app.post('/insearch', function (req, res) {
 app.get('/curry', function (req, res, next) {
     var query1 = "\
         SELECT m.contents  \
-        FROM recipe rc, method m, user u \
+        FROM recipe rc, method m \
         WHERE rc.title = 'カレー' \
         and rc.id = m.recipe_id; \
         ";
 
     var query2 = "\
-        SELECT i.name, i.quantity, rc.title, rc.introduction, u.account \
-        FROM recipe rc, ingredient i, user u \
+        SELECT i.name, i.quantity \
+        FROM recipe rc, ingredient i \
         WHERE rc.title = 'カレー' \
-        and u.account = rc.account \
         and rc.id = i.recipe_id; \
+        ";
+
+    var query3 = "\
+        SELECT rc.introduction, rc.background, rc.point \
+        FROM recipe rc \
+        WHERE rc.title = 'カレー' \
         ";
     
     console.log("DBG_INDEX:" + query1);
     console.log("DBG_INDEX:" + query2);
-
+    console.log("DBG_INDEX:" + query3);
     /*
     // Promise, then を使う方法
     var result = new Promise(function(resolve) {
@@ -151,10 +156,15 @@ app.get('/curry', function (req, res, next) {
         
         sample(query2, function(rows2) {
             console.log("query2 : " + rows2.length);
-            
-            res.render('curry', {
-                methods: rows1,
-                ingredients: rows2
+
+            sample(query3, function(rows3) {
+                console.log("query3 : " + rows3.length);
+                res.render('curry', {
+                    methods: rows1,
+                    ingredients: rows2,
+                    informations: rows3
+                    
+                });     
             });
         }); 
     });
