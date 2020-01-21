@@ -11,9 +11,12 @@ html
             if results != false
                 div(class="sort") 人気順で表示中!
                 each row in results
-                    img(class="photo" src="photo/"+row['title']+".jpg")
+                    img(class="photo" src="photo/"+row['photo']+".jpg")
                     div
-                        div(class="recipe_title") #{row['title']}
+                        div(class="recipe_title")
+                          form(method='post', action='/recipe')
+                            input(type='hidden' name='title' value=row['title'])
+                            input(type='submit', value=row['title'])
                     div(class="recipe")
                         div(class="recipe_user") by #{row['name']}
                         div(calss="recipe_intro") #{row['introduction']}
@@ -21,4 +24,3 @@ html
                 div(class="sorry") 申し訳ございません。<br> 該当するレシピはありません。
                 div
                     img(class="apologize" src="photo/apologize.png")
-                

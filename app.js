@@ -134,7 +134,7 @@ app.post('/recipe', function (req, res) {
         ";
 
     var query3 = "\
-        SELECT rc.title, rc.photo, rc.introduction, rc.background, rc.photo, rc.point ,u.name, u.account\
+        SELECT rc.title, rc.photo, rc.introduction, rc.background, rc.point ,u.name, u.account\
         FROM recipe rc , user u\
         WHERE rc.title = ? \
         and u.account = rc.account; \
@@ -143,26 +143,7 @@ app.post('/recipe', function (req, res) {
     console.log("DBG_INDEX:" + query1);
     console.log("DBG_INDEX:" + query2);
     console.log("DBG_INDEX:" + query3);
-    /*
-    // Promise, then を使う方法
-    var result = new Promise(function(resolve) {
-        sample(query1, function(rows) {
-            resolve(rows);
-        });
-    });
-    result
-        .then( function(rows1) {
-            sample(query2, function(rows2) {
-                console.log("query1 :" + rows1.length);
-                console.log("query2 :" + rows2.length);
-                res.render('curry', {
-                    methods: rows1,
-                    ingredients: rows2
-                });
-            });
-        });
-    */
-
+    
     // コールバック処理を入れ子で実現
     sample(query1, content, function(rows1) {
         console.log("query1 : " + rows1.length);
