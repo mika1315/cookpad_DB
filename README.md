@@ -13,3 +13,26 @@ npm install
 ``` 
 node app.js
 ```
+- ブラウザで http://localhost:3000 にアクセスしてみる
+
+## どこに何が書かれているの？
+- app.js
+  - URLが指定された時に何を動かして何を返せばいいかが書かれている
+  
+- /views/index.pug
+  - http://localhost:3000 にアクセスした時に表示されるHTML
+  - ユーザーの個人ページを表示する。
+  
+- /views/search.pug
+  - http://localhost:3000/search にアクセスした時に表示されるHTML
+  - 検索画面を表示する。
+  
+- /views/insearch.pug
+  - http://localhost:3000/insearch にアクセスした時に表示されるHTML
+  - 検索結果画面を表示する。検索画面で検索ボタンをクリックするとここに遷移。
+  
+- /views/recipe.pug
+  - http://localhost:3000/recipe にアクセスした時に表示されるHTML
+  - レシピを表示する。
+
+
