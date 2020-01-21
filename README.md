@@ -25,7 +25,7 @@ node app.js
   
 - /views/search.pug
   - http://localhost:3000/search にアクセスした時に表示されるHTML
-  - 検索画面を表示する。
+  - 検索画面を表示する。食材名で検索ができる。
   
 - /views/insearch.pug
   - http://localhost:3000/insearch にアクセスした時に表示されるHTML
