@@ -1,0 +1,38 @@
+html
+    head
+        link(ref="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+        link(rel="stylesheet" href="css/materialize.min.css" media="screen,projection")
+        link(rel="stylesheet" href="css/curry.css")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    body
+        script(type="text/javascript" src="js/materialize.min.js")
+        div(class="container")
+            div(class="header")
+                each row in informations
+                    div(class="title") #{row['title']}
+                    img(class="curry" src = "photo/"+row['photo']+".jpg")
+                    div(class="intro") #{row['introduction']}
+                    img(class="icon" src = "photo/"+row['account']+".png")
+                    div(class="account") 作成者：#{row['name']}
+            div
+                div(class="ingredients") 材料
+                each row in ingredients
+                    div(class="list") #{row['name']}: #{row['quantity']}
+            div
+                div(class="methods") 作り方
+                  table(border="1")
+                    each row, index in methods
+                      tr
+                        th #{index+1}
+                        th #{row['contents']}
+                        th(align="right")
+                          img(src="photo/"+row['photo']+".jpg" width="80" height="80")
+                      tr
+            div
+                div(class="point") コツ・ポイント
+                each row in informations
+                    div(class="point_content") #{row['point']}<br><br>
+            div
+                div(class="background") このレシピの生い立ち
+                each row in informations
+                    div(class="bg_content") #{row['background']}<br><br>
