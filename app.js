@@ -10,8 +10,8 @@ app.use(bodyParser.json())
 
 var db = new sqlite3.Database('cookpad.db')
 
-function sample(query, callback) {
-    db.all(query, {}, function (err, rows) {
+function sample(query, content, callback) {
+    db.all(query, content, function (err, rows) {
         if (err) {
             console.log("ERROR: " + err.message);
         }
@@ -39,6 +39,14 @@ app.get('/', function (req, res, next) {
             WHERE u.name = 'うさぎ' \
             and u.account = rp.account \
             and rp.recipe_id = rc.id) as report_title, \
+            (SELECT rc.photo \
+            FROM recipe rc \
+            WHERE u.name = 'うさぎ' \
+            and u.account = rc.account) as recipe_photo, \
+            (SELECT rp.photo \
+            FROM report rp , recipe rc \
+            WHERE u.name = 'うさぎ' \
+            and u.account = rp.account) as report_photo, \
             (SELECT count(rc.title) \
             FROM report rp , recipe rc \
             WHERE u.name = 'うさぎ' \
@@ -72,16 +80,16 @@ app.get('/', function (req, res, next) {
     })
 });
 
-app.get('/search', function (req, res, next) {   
+app.get('/search', function (req, res, next) {
    res.render('search')
 });
 
 app.post('/insearch', function (req, res) {
-    
+
     content = req.body['ingredient'];
     console.log("Post:" + content);
     var query = "\
-        SELECT rc.title, u.name, rc.introduction, \
+        SELECT rc.title, u.name, rc.introduction, rc.photo, \
             (SELECT count(*) \
             FROM search s \
             WHERE rc.id = s.recipe_id) as search_count \
@@ -93,7 +101,7 @@ app.post('/insearch', function (req, res) {
         ";
     console.log("DBG_SEARCH:" + query);
     // var statement = db.prepare(query);
-    
+
     db.all(query,content, function (err, rows) {
         if (err) {
             console.log("ERROR_SEARCH: " + err.message);
@@ -103,30 +111,35 @@ app.post('/insearch', function (req, res) {
             results: rows
         })
     })
-    // statement.finalize();    
+    // statement.finalize();
 });
 
-app.get('/curry', function (req, res, next) {
+app.post('/recipe', function (req, res) {
+
+    content = req.body['title'];
+    console.log("Post:" + content);
+
     var query1 = "\
-        SELECT m.contents  \
+        SELECT m.contents , m.photo \
         FROM recipe rc, method m \
-        WHERE rc.title = 'カレー' \
+        WHERE rc.title = ? \
         and rc.id = m.recipe_id; \
         ";
 
     var query2 = "\
         SELECT i.name, i.quantity \
         FROM recipe rc, ingredient i \
-        WHERE rc.title = 'カレー' \
+        WHERE rc.title = ? \
         and rc.id = i.recipe_id; \
         ";
 
     var query3 = "\
-        SELECT rc.introduction, rc.background, rc.point \
-        FROM recipe rc \
-        WHERE rc.title = 'カレー' \
+        SELECT rc.title, rc.photo, rc.introduction, rc.background, rc.photo, rc.point ,u.name, u.account\
+        FROM recipe rc , user u\
+        WHERE rc.title = ? \
+        and u.account = rc.account; \
         ";
-    
+
     console.log("DBG_INDEX:" + query1);
     console.log("DBG_INDEX:" + query2);
     console.log("DBG_INDEX:" + query3);
@@ -151,23 +164,24 @@ app.get('/curry', function (req, res, next) {
     */
 
     // コールバック処理を入れ子で実現
-    sample(query1, function(rows1) {
+    sample(query1, content, function(rows1) {
         console.log("query1 : " + rows1.length);
-        
-        sample(query2, function(rows2) {
+
+        sample(query2, content, function(rows2) {
             console.log("query2 : " + rows2.length);
 
-            sample(query3, function(rows3) {
+            sample(query3,content, function(rows3) {
                 console.log("query3 : " + rows3.length);
-                res.render('curry', {
+
+                res.render('recipe', {
                     methods: rows1,
                     ingredients: rows2,
                     informations: rows3
-                    
-                });     
-            });
-        }); 
+
+                  });
+              });
+          });
+       });
     });
-});
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

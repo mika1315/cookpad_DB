@@ -19,12 +19,18 @@ html
                 div(class="user_info")
                     div(class="userrecipe")
                         div(class="recipe") #{row['name']} が作ったレシピ: #{row['title_count']} 品
-                        img(class="curry" src = "photo/"+row['title']+".jpg") 
-                        div: a(class="recipe_title" href='curry') #{row['title']}
+                        img(class="curry" src = "photo/"+row['recipe_photo']+".jpg")
+                        div(class="recipe_title")
+                          form(method='post', action='/recipe')
+                            input(type='hidden' name='title' value=row['title'])
+                            input(type='submit', value=row['title'])
                         div(class="recipe_intro") #{row['introduction']}
                     div(class="userreport")
                         div(class="report") #{row['name']} のつくれぽ: #{row['report_title_count']} 件
-                        img(class="naporitan" src = "photo/"+row['report_title']+"_rep.jpg") 
-                        div(class="report_title") #{row['report_title']}
+                        img(class="naporitan" src = "photo/"+row['report_photo']+".jpg")
+                        div(class="report_title")
+                          form(method='post', action='/recipe')
+                            input(type='hidden' name='title' value=row['report_title'])
+                            input(type='submit', value=row['report_title'])
                         div(class="recipe_user") by #{row['recipe_user']}
                         div(class="report_content") #{row['report_content']}
